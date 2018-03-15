@@ -6,7 +6,7 @@ int main()
 {
 	clock_t t1, t2;				// variables for computing clocks 
 	double a=1.234, b=2.456, c;
-	double T1, T2;
+	double **A, *x, *b, T1, T2;
 	int i, j, k, N=100000000;
 
 	t1 = clock();
