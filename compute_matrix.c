@@ -4,6 +4,7 @@
 #include <time.h>
 int main()
 {
+	//hello
 	clock_t t1, t2;				// variables for computing clocks 
 	double a=1.234, b=2.456, c;
 	double **A, *x, *b, T1, T2;
