@@ -112,7 +112,7 @@ int main()
 	T2 = (t2-t1)/(double) CLOCKS_PER_SEC;
 	printf("(sin) time x 2 + 1 loop:%f\n",T2);
 	printf("(sin) time: %f\n",T2-T1);
-	printf("(a,b)=%f %f\n", a,b);
+	printf("(a,b)=%.16e %.16e\n", a,b);
 
 	srand(time(NULL));
 	short r;
