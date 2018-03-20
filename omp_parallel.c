@@ -11,20 +11,23 @@ int main()
 	double ot1, ot2;
 	clock_t t1, t2;
 	ot1 = omp_get_wtime();
-	#pragma omp parallel num_threads(8)
+	
+	#pragma omp parallel num_threads(8) // 把下面的工作平行處理 
 	{
-		printf("Hello world (%d,%d,%f) \n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
-		printf("Hello Program\n");
+		printf("Hello World (%d,%d,%f) \n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
+		printf("Hello Program (%d,%d,%f)\n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
 	}
 	
-	#pragma omp parallel for 
+	#pragma omp parallel for
 	for(i=0;i<10;++i)
 	{
-		j = i;
-		printf("%d %d\n",i,omp_get_thread_num());
-	}
+		j = i;    // j=0, j=1, j=2, ...., j=9
+		j = j-i;
+		printf("%d: %d \n",i,omp_get_thread_num());
+	}	
 	printf("j = %d\n",j);
 	
+	return 0;
 	j = 0;
 	for(i=0;i<=10;++i)
 	{
