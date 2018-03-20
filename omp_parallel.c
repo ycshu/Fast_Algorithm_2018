@@ -21,10 +21,10 @@ int main()
 	#pragma omp parallel for
 	for(i=0;i<10;++i)
 	{
-		j = i;    // j=0, j=1, j=2, ...., j=9
-		j = j-i;
-		printf("%d: %d \n",i,omp_get_thread_num());
-	}	
+		j = i;
+		j = j + i;
+		printf("%d %d\n",i,omp_get_thread_num());
+	}
 	printf("j = %d\n",j);
 	
 	return 0;
