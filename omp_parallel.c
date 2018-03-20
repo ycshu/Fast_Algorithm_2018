@@ -51,10 +51,10 @@ int main()
 		}
 	}
 
-	#pragma omp parallel for private(k, j) 
+	#pragma omp parallel for private(k) // 分給 A=0, B=1, C=2, D, E, F, G, H 
 	for(k=0;k<100;++k) {
 		j = 0;
-		#pragma omp parallel for reduction(+: j)
+		#pragma omp parallel for reduction(+: j) // 分給 D_1, D_2, ..., D_10 
 		for(i=0;i<=10;++i)
 		{
 			j += i;
