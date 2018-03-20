@@ -49,6 +49,7 @@ int main()
 	printf("(+,-) time x 3 + 1 loop:%f\n",T1);
 	printf("(a,b)=%f %f\n", a,b);
 	t1 = clock();
+	#pragma omp parallel
 	for(i=0;i<N;++i)
 	{
 		a = a+b;
@@ -117,6 +118,8 @@ int main()
 	srand(time(NULL));
 	short r;
 
+	
+	#pragma omp parallel for
 	t1 = clock();
 	for(i=0;i<N;i++)
 	{
@@ -126,7 +129,6 @@ int main()
 	printf("(rand) time:%f\n",(t2-t1)/(double) CLOCKS_PER_SEC);
 	printf("r=%d\n", r);
 
-	//short A[10000][10000];
 	t1 = clock();
 	for(i=0;i<N;i++)
 	{
@@ -134,7 +136,6 @@ int main()
 	}
 	t2 = clock();
 	printf("(rand) time:%f\n",(t2-t1)/(double) CLOCKS_PER_SEC);
-	//printf("r=%d\n", A[9999][9999]);
 
 	return;
 } 
