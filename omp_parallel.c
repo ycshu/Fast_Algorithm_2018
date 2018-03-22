@@ -14,10 +14,37 @@ int main()
 	
 	#pragma omp parallel num_threads(8) // 把下面的工作平行處理 
 	{
-		//printf("Hello World (%d,%d,%f) \n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
-		//printf("Hello Program (%d,%d,%f)\n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
+		printf("Hello World A(%d,%d,%f)\n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
+		printf("Hello World B(%d,%d,%f)\n",omp_get_thread_num(),omp_get_num_threads(),omp_get_wtime()-ot1);
 	}
-	
+	// 從列印的結果，你會發現
+	// 這兩行指令在同一個thread中是循序的，在不同的thread中先後不一定 
+	j = 0; 
+	int JG[10];
+	#pragma omp parallel num_threads(10) // 把下面的工作平行處理 
+	{
+		i = omp_get_thread_num();
+		JG[i] = j;
+		j += i;
+	}
+	printf("j = %d\n", j);
+	#pragma omp parallel num_threads(10) private(i)
+	{
+		i = omp_get_thread_num();
+		printf("JG[%d]=%d,", i, JG[i]);
+	}
+	printf("\n");
+	j = 0; 
+	#pragma omp parallel num_threads(10)  // 把下面的工作平行處理 
+	{
+		i = omp_get_thread_num();
+		#pragma omp barrier
+		JG[i] = j;
+		#pragma omp atomic
+		j += i;
+	}
+	printf("j = %d\n", j);
+	return 0;
 	#pragma omp parallel for 
 	for(i=0;i<10;++i)
 	{
