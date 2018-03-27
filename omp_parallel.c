@@ -20,12 +20,22 @@ int main()
 	// 從列印的結果，你會發現
 	// 這兩行指令在同一個thread中是循序的，在不同的thread中先後不一定 
 	j = 0;
-	#pragma omp parallel for 
+	#pragma omp parallel for // by default, i is private, others is shared
 	for(i=0;i<10;++i) {
 		j += i;
 	}
 	printf("(without any consideration) j = %d\n", j);
+	/* 
+		for example, we have 4 workers.
 
+	shared	j=0	can be read and written by any workers below
+		
+				worker 1	worker 2	worker 3	worker 4
+	private	i	  i=1		  i=2		  i=3		  i=4
+	工作:		 j=j+i		 j=j+i		 j=j+i		 j=j+i
+	執行順序	   1		   1		   2		   3	 (相同表幾乎同時)
+	             j=0+1		 j=0+2 ==> 看哪一個最後送出去， j 就是那個值    
+	*/
 	j = 0;
 	#pragma omp parallel for 
 	for(i=0;i<10;++i) {
