@@ -5,17 +5,44 @@
 int main()
 {
 	clock_t t1, t2;				// variables for computing clocks 
-	double a=1.234, b=2.456, c;
-	double **A, *x, *b, T1, T2;
-	int i, j, k, N=100000000;
+	double **A, *x, *b, T1;
+	int i, j, N=10000;
 
-	t1 = clock();
+	srand(time(NULL));
 
-	t2 = clock();
-	T1 = (t2-t1)/(double) CLOCKS_PER_SEC;
-	printf("mem x 3 + 1 loop:%f\n",T1);
-	printf("(a,b)=%f %f\n", a,b);
-
+	for(N=2000;N<=20000;N*=2)
+	{
+		A = (double **) malloc( N * sizeof(double*) );
+		A[0] = (double *) malloc( N*N*sizeof(double));
+		for(i=1;i<N;++i) A[i] = A[i-1] + N;
+		x = (double *) malloc( N * sizeof(double) );
+		b = (double *) malloc( N * sizeof(double) );
+		
+		for(i=0;i<N;++i)
+		{
+			for(j=0;j<N;++j)
+			{
+				A[i][j] = rand();
+			}
+			x[i] = rand();
+		}
+		t1 = clock();
+		for(i=0;i<N;++i) 
+		{
+			b[i] = 0.0;
+			for(j=0;j<N;++j)
+			{
+				b[i] += A[i][j]*x[j];
+			}
+		}
+		t2 = clock();
+		T1 = (t2-t1)/(double) CLOCKS_PER_SEC;
+		printf("Matrix time vector :%f\n",T1);
+		free(b);
+		free(x);
+		free(A[0]);
+		free(A);	
+	} 
 
 	return 0;
 } 
