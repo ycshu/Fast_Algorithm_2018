@@ -46,6 +46,8 @@ int main()
 	執行順序	   1		   1		   2		   3	 (相同表幾乎同時)
 	             j=0+1		 j=0+2 ==> 看哪一個最後送出去， j 就是那個值 
 	*/
+	
+//=====================================================================================
 
 	j = 0;
 	#pragma omp parallel for 
@@ -55,7 +57,9 @@ int main()
 		j += i;
 	}
 	printf("(atomic) j = %d\n", j);
-
+	
+//=====================================================================================
+	
 	j = 0;
 	#pragma omp parallel for reduction(+: j) // = private j, sum all j in all thread 
 	for(i=0;i<10;++i) 
@@ -63,6 +67,8 @@ int main()
 		j += i;
 	}
 	printf("(reduction) j = %d\n", j);
+
+//=====================================================================================
 	
 	// sum 0~9
 	int JG[10];
@@ -77,6 +83,8 @@ int main()
 	}
 	printf("(+ thread number may be wrong) j = %d\n", j);
 
+//=====================================================================================
+
 	j = 0;
 	#pragma omp parallel num_threads(10) private(i) // 把下面的工作平行處理
 	{
@@ -89,8 +97,10 @@ int main()
 	}
 	printf("(+ thread number correct) j = %d\n", j);	
 
+//=====================================================================================
+
 	j = 0;
-	#pragma omp parallel num_threads(101)
+	#pragma omp parallel num_threads(10)	//陽春型寫法 
 	{
 		#pragma omp atomic
 		j += omp_get_thread_num();
@@ -98,6 +108,9 @@ int main()
 	printf("j = %d\n", j);
 	
 	return 0;
+
+//=====================================================================================
+
 	#pragma omp parallel num_threads(10) private(i)
 	{
 		i = omp_get_thread_num();
@@ -114,6 +127,8 @@ int main()
 		j += i;
 	}
 	printf("j = %d\n", j);
+
+//=====================================================================================
 
 	#pragma omp parallel for 
 	for(i=0;i<10;++i)
@@ -132,6 +147,8 @@ int main()
 	}
 	printf("sum(1..10) = %d\n",j);
 
+//=====================================================================================
+
 	for(k=0;k<100;++k)
 	{
 		j = 0;
@@ -147,6 +164,8 @@ int main()
 			//printf("Wrong! %d\n",k);
 		}
 	}
+
+//=====================================================================================
 
 	#pragma omp parallel for private(k, j) // 分給 A=0, B=1, C=2, D, E, F, G, H 
 										   // j也要是 private 的，不然 B 同學可能會拿到 A 同學的 j 
