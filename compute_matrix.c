@@ -14,6 +14,7 @@ int main()
 	x = &T1;
 	printf("%u %f\n", x, x[0]);
 
+	//以下此五個亂數每次都跑出相同的值 
 	printf("%d\n", rand());
 	printf("%d\n", rand());
 	printf("%d\n", rand());
@@ -59,8 +60,28 @@ int main()
 		c = (double *) malloc( N * sizeof(double) );
 		C = (int **) malloc(N*sizeof(int*));
 		C[0] = (int *) malloc(N*N*sizeof(int));
-		for(i=1;i<N;++i) C[i] = C[0]+i*N; 
 		
+		/*
+		#pragma omp parallel
+		{
+			srand(time(NULL));			//在每一個thread中設定起始值 
+			#pragma omp parallel for	//再往下做取亂數 
+			for(i=0;i<N;++i)
+			{
+				#pragma omp parallel for
+				for(j=0;j<N;++j)
+				{
+					A[i][j]=rand();
+				}
+				x[i]=rand;
+			}
+		}
+		*/
+		 
+		
+		
+		
+		for(i=1;i<N;++i) C[i] = C[0]+i*N; 
 		M = N/4;
 		#pragma omp parallel num_threads(4) private(i,j,k,L)
 		{
