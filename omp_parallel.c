@@ -207,5 +207,5 @@ int main()
 	printf("a = %f, b = %f\n", a, b);
 	printf("parallel time:%f\n",(t2-t1)/(double) CLOCKS_PER_SEC);
 	
-	return 0;
+	return 0;++
 }
