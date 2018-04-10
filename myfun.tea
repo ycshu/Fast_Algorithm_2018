@@ -1,0 +1,20 @@
+// return y = x^n mod p; 函數的樣子是甚麼....但是怎麼實作, 在後面 XD 
+int function_name(int x, int n, int p)
+{
+	int i, m;
+	m = x % p;
+	for(i=1;i<n;++i)
+	{
+		m = (m * x) % p;
+	}
+	return m;	
+} 
+// compute n!
+int fractorial(int n)
+{
+	if(n==1) {
+		return 1;
+	} else {
+		return n*(fractorial(n-1));
+	}
+}
